@@ -25,7 +25,9 @@ tools.
 
 ## Cómo lo usa un proyecto
 
-1. En la raíz del proyecto: `~/.config/opencode/bin/project-init`.
+1. En la raíz del proyecto: `/init` (o `~/.config/opencode/bin/project-init`).
+   `/init` hace el bootstrap, **detecta el stack** y prepara el steering; si algo no
+   se puede confirmar, pregunta.
 2. Edita `.kiro/steering/*` con el stack real.
 3. Crea specs: `/kiro-discovery` → `/kiro-spec-init` → `/kiro-spec-requirements`
    → `/kiro-spec-design` → `/kiro-spec-tasks` → `/kiro-impl` → `/kiro-validate-impl`.

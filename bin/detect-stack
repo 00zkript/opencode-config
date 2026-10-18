@@ -1,0 +1,86 @@
+#!/usr/bin/env sh
+# Detecta los stacks del proyecto actual y si hay un pack global que los cubra.
+#
+# Uso:
+#   ~/.config/opencode/bin/detect-stack
+set -eu
+
+BASE="${OPENCODE_BASE:-$HOME/.config/opencode}"
+found=0
+
+pack() {
+    # $1 = nombre del pack (directorio en skills/)
+    if [ -d "$BASE/skills/$1" ]; then
+        printf '[pack: %s]' "$1"
+    else
+        printf '[sin pack]'
+    fi
+}
+
+report() {
+    # $1 = nombre legible, $2 = evidencia, $3 = pack sugerido
+    printf '  - %-22s (%s)  %s\n' "$1" "$2" "$(pack "$3")"
+    found=1
+}
+
+mentions() {
+    # $1 = texto, $2 = archivo
+    grep -qi -- "$1" "$2" 2>/dev/null
+}
+
+t() { [ -f "$1" ]; }
+
+echo "Stacks detectados en $(pwd):"
+
+if t composer.json; then
+    if t artisan; then report "Laravel/PHP" "artisan + composer.json" laravel
+    else report "PHP" "composer.json" laravel; fi
+fi
+
+if t package.json; then
+    report "Node/JS/TS" "package.json" typescript
+    mentions '"vue"' package.json && report "Vue" "dep. vue" vue
+    mentions '"react"' package.json && report "React" "dep. react" react
+    mentions '"next"' package.json && report "Next.js" "dep. next" react
+    mentions '"typescript"' package.json && report "TypeScript" "dep. typescript" typescript
+fi
+
+t tsconfig.json && report "TypeScript" "tsconfig.json" typescript
+
+if t pyproject.toml || t requirements.txt || t setup.py; then
+    report "Python" "pyproject/requirements/setup" python
+fi
+
+t go.mod && report "Go" "go.mod" go
+t Cargo.toml && report "Rust" "Cargo.toml" rust
+t pom.xml && report "Java/Maven" "pom.xml" java
+t build.gradle && report "Java/Gradle" "build.gradle" java
+t Gemfile && report "Ruby" "Gemfile" ruby
+t mix.exs && report "Elixir" "mix.exs" elixir
+t pubspec.yaml && report "Dart/Flutter" "pubspec.yaml" dart
+
+t platformio.ini && report "Embebido/PlatformIO" "platformio.ini" embedded
+if t sdkconfig || t idf.py; then report "Embebido/ESP-IDF" "sdkconfig/idf.py" embedded; fi
+t prj.conf && report "Embebido/Zephyr" "prj.conf" embedded
+t CMakeLists.txt && report "C/C++ (CMake)" "CMakeLists.txt" embedded
+
+if t Dockerfile || t docker-compose.yml || t compose.yaml; then
+    report "Docker" "Dockerfile/compose" docker
+fi
+
+t Makefile && report "Make" "Makefile" make
+
+echo
+if [ "$found" -eq 0 ]; then
+    echo "Nada reconocido: hay que preguntar el stack al usuario."
+else
+    packs=""
+    for d in "$BASE"/skills/*/; do
+        name=$(basename "$d")
+        case "$name" in
+            development | kiro-*) ;;
+            *) packs="$packs$name " ;;
+        esac
+    done
+    echo "Packs de stack disponibles: ${packs:-ninguno}"
+fi
