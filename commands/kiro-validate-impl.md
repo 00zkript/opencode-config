@@ -1,0 +1,5 @@
+---
+description: "Validate feature-level integration after all tasks are implemented. Checks cross-task consistency, full test suite, and overall spec coverage."
+---
+
+Carga la skill `kiro-validate-impl` y ejecútala con: $ARGUMENTS

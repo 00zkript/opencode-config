@@ -1,0 +1,5 @@
+---
+description: "Entry point for new work. Determines the best action path or work decomposition (update existing spec, create new spec, mixed decomposition, or no spec needed) and refines ideas through structured dialogue."
+---
+
+Carga la skill `kiro-discovery` y ejecútala con: $ARGUMENTS

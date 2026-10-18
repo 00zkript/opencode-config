@@ -1,0 +1,5 @@
+---
+description: "Review a task implementation against approved specs, task boundaries, and verification evidence. Use after an implementer finishes a task, after remediation, or before accepting a task as complete."
+---
+
+Carga la skill `kiro-review` y ejecútala con: $ARGUMENTS

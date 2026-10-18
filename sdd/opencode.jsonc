@@ -1,0 +1,14 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  // Skills propias del proyecto (las globales se detectan solas).
+  "skills": [".opencode/skills"],
+  // Conocimiento persistente del proyecto (cc-sdd). Mantener corto y conciso.
+  "instructions": [
+    ".kiro/steering/product.md",
+    ".kiro/steering/tech.md",
+    ".kiro/steering/structure.md"
+  ],
+  "watcher": {
+    "ignore": ["node_modules/**", "vendor/**", ".venv/**", "state/**", "output/**"]
+  }
+}

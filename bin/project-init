@@ -1,0 +1,42 @@
+#!/usr/bin/env sh
+# Inicializa un proyecto para trabajar con OpenCode + cc-sdd.
+#
+# Uso:
+#   ~/.config/opencode/bin/project-init [ruta-del-proyecto]
+#
+# Crea (sin sobrescribir): .kiro/settings, .kiro/steering/*, .opencode/opencode.jsonc.
+set -eu
+
+BASE="${OPENCODE_BASE:-$HOME/.config/opencode}"
+PROJECT="${1:-$PWD}"
+
+if [ ! -d "$PROJECT" ]; then
+    echo "ERROR: no existe el directorio $PROJECT" >&2
+    exit 1
+fi
+
+cd "$PROJECT"
+mkdir -p .kiro .opencode
+
+# 1) Plantillas de cc-sdd (.kiro/settings)
+if [ ! -d .kiro/settings ]; then
+    cp -R "$BASE/sdd/settings" .kiro/settings
+    echo "creado .kiro/settings (plantillas cc-sdd)"
+fi
+
+# 2) Steering inicial
+mkdir -p .kiro/steering .kiro/specs
+for f in product tech structure; do
+    if [ ! -f ".kiro/steering/$f.md" ]; then
+        cp "$BASE/sdd/steering/$f.md" ".kiro/steering/$f.md"
+        echo "creado .kiro/steering/$f.md (edítalo con tu proyecto)"
+    fi
+done
+
+# 3) Config de OpenCode del proyecto
+if [ ! -f .opencode/opencode.jsonc ]; then
+    cp "$BASE/sdd/opencode.jsonc" .opencode/opencode.jsonc
+    echo "creado .opencode/opencode.jsonc"
+fi
+
+echo "Listo. Siguiente: edita .kiro/steering/* y usa /kiro-discovery o /kiro-spec-init."

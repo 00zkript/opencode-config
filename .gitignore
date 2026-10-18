@@ -1,0 +1,8 @@
+# Específico de la máquina
+service.json
+
+# Ruido
+*.log
+.DS_Store
+node_modules/
+.venv/
