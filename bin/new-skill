@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+# Crea una skill (pack de stack) a partir de la plantilla global.
+#
+# Uso:
+#   ~/.config/opencode/bin/new-skill <nombre>
+#
+# Crea ~/.config/opencode/skills/<nombre>/SKILL.md y lo deja listo para editar.
+set -eu
+
+BASE="${OPENCODE_BASE:-$HOME/.config/opencode}"
+NAME="${1:?uso: new-skill <nombre>}"
+DIR="$BASE/skills/$NAME"
+
+if [ -e "$DIR" ]; then
+    echo "ERROR: ya existe $DIR" >&2
+    exit 1
+fi
+
+mkdir -p "$DIR"
+cp "$BASE/sdd/packs/_template/SKILL.md" "$DIR/SKILL.md"
+echo "creado $DIR/SKILL.md — edítalo y cierra el frontmatter (name, description)."
