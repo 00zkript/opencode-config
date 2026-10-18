@@ -23,6 +23,13 @@ tools.
 - `bin/new-skill` — crea un pack de stack nuevo a partir de la plantilla
   (`new-skill rust`, `new-skill go`, …). Rellena y listo: se detecta en todos los proyectos.
 
+## Comandos
+
+- `/setup` — reconoce el proyecto actual, hace el bootstrap, prepara el steering y
+  enruta. Si la carpeta no es un proyecto, no toca nada y ofrece crear un workspace.
+- `/new <nombre> [stack]` — crea un workspace nuevo (carpeta + git) desde el padre,
+  listo para scaffoldear con un generador o inicializar a mano.
+
 ## Cómo lo usa un proyecto
 
 1. En la raíz del proyecto: `/setup` (o `~/.config/opencode/bin/project-init`).
