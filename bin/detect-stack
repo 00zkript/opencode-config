@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# Detecta los stacks del proyecto actual y si hay un pack global que los cubra.
+# Detecta si hay un proyecto en la carpeta actual, sus stacks y si hay un pack global.
 #
 # Uso:
 #   ~/.config/opencode/bin/detect-stack
@@ -7,9 +7,9 @@ set -eu
 
 BASE="${OPENCODE_BASE:-$HOME/.config/opencode}"
 found=0
+proj=0
 
 pack() {
-    # $1 = nombre del pack (directorio en skills/)
     if [ -d "$BASE/skills/$1" ]; then
         printf '[pack: %s]' "$1"
     else
@@ -18,17 +18,16 @@ pack() {
 }
 
 report() {
-    # $1 = nombre legible, $2 = evidencia, $3 = pack sugerido
     printf '  - %-22s (%s)  %s\n' "$1" "$2" "$(pack "$3")"
     found=1
 }
 
 mentions() {
-    # $1 = texto, $2 = archivo
     grep -qi -- "$1" "$2" 2>/dev/null
 }
 
 t() { [ -f "$1" ]; }
+d() { [ -d "$1" ]; }
 
 echo "Stacks detectados en $(pwd):"
 
@@ -70,17 +69,29 @@ fi
 
 t Makefile && report "Make" "Makefile" make
 
+# ¿Hay un proyecto aquí? (repo git, carpeta de código o algún archivo fuente)
+if d .git || d src || d app || d lib || d cmd; then proj=1; fi
+for f in *.py *.js *.ts *.tsx *.vue *.php *.go *.rs *.java *.c *.cpp *.rb *.ex *.exs; do
+    if [ -e "$f" ]; then proj=1; fi
+done
+if [ "$found" -eq 1 ]; then proj=1; fi
+
 echo
 if [ "$found" -eq 0 ]; then
-    echo "Nada reconocido: hay que preguntar el stack al usuario."
-else
+    echo "No se reconoció ningún stack."
+fi
+
+if [ "$proj" -eq 1 ]; then
     packs=""
-    for d in "$BASE"/skills/*/; do
-        name=$(basename "$d")
+    for dir in "$BASE"/skills/*/; do
+        name=$(basename "$dir")
         case "$name" in
             development | kiro-*) ;;
             *) packs="$packs$name " ;;
         esac
     done
+    echo "ESTADO: proyecto"
     echo "Packs de stack disponibles: ${packs:-ninguno}"
+else
+    echo "ESTADO: vacio"
 fi
