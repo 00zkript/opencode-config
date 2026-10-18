@@ -39,4 +39,10 @@ if [ ! -f .opencode/opencode.jsonc ]; then
     echo "creado .opencode/opencode.jsonc"
 fi
 
-echo "Listo. Siguiente: edita .kiro/steering/* y usa /kiro-discovery o /kiro-spec-init."
+# 4) AGENTS.md del proyecto
+if [ ! -f AGENTS.md ]; then
+    cp "$BASE/sdd/AGENTS.md" AGENTS.md
+    echo "creado AGENTS.md (edítalo con tu proyecto)"
+fi
+
+echo "Listo. Siguiente: edita .kiro/steering/* y AGENTS.md, y usa /kiro-discovery o /kiro-spec-init."

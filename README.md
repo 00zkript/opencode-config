@@ -18,8 +18,8 @@ tools.
   - `steering/` — esqueletos de `product.md`, `tech.md`, `structure.md`.
   - `packs/_template/SKILL.md` — plantilla para crear un pack de stack nuevo.
   - `opencode.jsonc` — config de proyecto de ejemplo.
-- `bin/project-init` — prepara un proyecto: crea `.kiro/settings`, `.kiro/steering`
-  y `.opencode/opencode.jsonc`.
+- `bin/project-init` — prepara un proyecto: crea `.kiro/settings`, `.kiro/steering`,
+  `.opencode/opencode.jsonc` y `AGENTS.md` (idempotente).
 - `bin/new-skill` — crea un pack de stack nuevo a partir de la plantilla
   (`new-skill rust`, `new-skill go`, …). Rellena y listo: se detecta en todos los proyectos.
 
