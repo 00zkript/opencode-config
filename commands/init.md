@@ -22,6 +22,14 @@ Ejecuta en el shell:
 
 Interpreta el resultado. Si `$ARGUMENTS` indica un stack, úsalo como override. Si no detecta nada o hay empate, **pregunta** al usuario qué stack es antes de escribir.
 
+Si algún stack aparece como `[sin pack]` y es de uso real en el proyecto, **ofrece** crear su pack global:
+
+```bash
+~/.config/opencode/bin/new-skill <stack>
+```
+
+Si el usuario acepta, rellena `~/.config/opencode/skills/<stack>/SKILL.md` con las convenciones y comandos que observes en el repo (o que el usuario indique), y avísale de que quedará disponible en todos sus proyectos.
+
 ## 3. Escribir el conocimiento del proyecto
 Con la evidencia detectada, actualiza:
 
