@@ -57,6 +57,8 @@ After all parallel research completes, synthesize findings before generating tas
 - When documenting requirement coverage, list numeric requirement IDs only (comma-separated) without descriptive suffixes, parentheses, translations, or free-form labels
 - Ensure all design components included
 - Verify task progression is logical and incremental
+- Subtasks are optional: split a task into subtasks only when the work naturally decomposes into independently verifiable pieces. A simple task (fix a function, small change) has no subtasks. Never invent subtasks to reach a quota. If a phase grows too large, split it into two phases or merge non-independent steps
+- Prefer fewer subtasks when the pieces are tightly coupled; consolidate by functional boundary rather than splitting into file-level edits
 - Ensure each executable sub-task includes at least one detail bullet that states what "done" looks like in observable terms
 - Keep normal implementation tasks within a single responsibility boundary; if work crosses boundaries, make it an explicit integration task
 - Collapse single-subtask structures by promoting them to major tasks and avoid duplicating details on container-only major tasks (use template patterns accordingly)
@@ -116,6 +118,7 @@ Proceed only when the Task Plan Review Gate is satisfied and the latest task-gra
   - Update `updated_at` timestamp
 
 **Approval**:
+- **No-user contexts (subagent / autonomous run)**: never wait for input that cannot arrive. Inherit the parent's approval state; if none is available, keep `approvals.tasks.approved: false`, report the generated summary and return control — do not block, do not loop, do not invent an approval.
 - If auto-approve flag (`-y`) is provided:
   - Set `approvals.tasks.approved: true` in spec.json
   - Display task summary (task count, major groups, parallel markers)
@@ -131,6 +134,8 @@ Proceed only when the Task Plan Review Gate is satisfied and the latest task-gra
     - Respond with guidance on what to adjust and re-run
 
 ## Critical Constraints
+- **Subtasks optional**: subtasks only when work naturally decomposes; simple tasks have none. Last subtask of each phase is its verifiable gate
+- **Merge, don't fragment**: merge consecutive work sharing one boundary/use case/integration surface, and prefer vertical slices (a complete flow across layers) over horizontal or file-level splits
 - **Task Integration**: Every task must connect to the system (no orphaned work)
 - **Boundary annotations**: Required for `(P)` tasks, recommended for all (`_Boundary: ComponentName_`)
 - **Explicit dependencies**: Cross-boundary non-obvious dependencies declared with `_Depends: X.X_`

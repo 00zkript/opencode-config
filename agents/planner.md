@@ -102,6 +102,24 @@ Con lo anterior, decide y **justifica**:
 - La fase se marca `[x]` solo cuando todas sus subtareas, incluido el gate, están `[x]`.
 - Puede haber **una sola fase** si el trabajo es pequeño.
 
+### Regla de granularidad y fusión (obligatoria)
+
+- **Las subtareas son opcionales, no obligatorias.** Una tarea se divide en subtareas **solo** cuando el trabajo se descompone naturalmente en piezas verificables de forma independiente. Una tarea simple (arreglar una función, añadir un parámetro, un cambio pequeño de configuración) es **una sola tarea sin subtareas**.
+- **Sin mínimo ni cuota.** El número de subtareas sale de evaluar el requisito real, nunca de un número arbitrario. **No inventes subtareas para llegar a una cuota.**
+- **Fusionar por boundary**: cuando el trabajo consecutivo toca el mismo componente, límite, caso de uso o superficie de integración, fúndelo en una sola tarea.
+- **Vertical sobre horizontal**: prefiere un flujo completo por capas antes que dividir por capa.
+- **No dividir en ediciones por archivo**: no conviertas el plan en "crear archivo X", "añadir método Y", "añadir test Z". Describe unidades de flujo/boundary verificables.
+- Una verificación por subtarea: `"Terminado cuando..."` único, medible y ejecutable.
+- Gate es la última subtarea de cada fase; no añadir subtareas de diagnóstico redundantes.
+- **Regla**: Evalúa el requisito primero. Si es un cambio coherente, escribe **una tarea, sin subtareas**. Descompón solo cuando las piezas sean verificables por separado y merezcan revisión independiente.
+
+### Regla de materiales de referencia (carga bajo demanda)
+
+- Los **materiales de referencia** (mapeos de API, tablas de endpoints, contratos, esquemas, especificaciones externas) son **apoyo de contexto**, no se cargan automáticamente en cada subagente.
+- El planificador y el reviewer pueden necesitarlos; el **subagente implementador** solo los consulta si su tarea concreta los requiere.
+- **No inyectes** tablas de API, esquemas completos ni mapeos de datos en el prompt de un subagente salvo que la tarea los referencie explícitamente.
+- El subagente debe recibir **solo**: tarea, boundary, secciones afectadas del diseño, requirements relacionados y archivos existentes relevantes. El material de referencia se carga **bajo demanda**.
+
 ## Paso 4 — Re-entrada (continuar, modificar o ampliar)
 
 Si el spec ya existe: **no empieces de cero**.
@@ -124,6 +142,12 @@ aceptación, número de fases y sus gates. Pide confirmación o correcciones.
   de escribir en otro sitio.
 - No declares terminado un plan sin evidencia de que los archivos existen
   (léelos de vuelta).
+- **No ejecutas skills de implementación** (`kiro-impl`, `kiro-validate-impl`, …):
+  devuelves el control al usuario con la ruta del spec. Si te lo piden, explica que
+  ese paso le corresponde al agente de código.
+- **Si una herramienta te es denegada o falla** (`aborted`, permiso denegado):
+  máximo 1 reintento; si vuelve a fallar, **para y reporta** el motivo. Nunca
+  reintentes en bucle.
 
 ## Al cerrar
 

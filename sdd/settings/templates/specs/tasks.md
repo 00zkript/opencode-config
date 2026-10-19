@@ -12,9 +12,22 @@
 >
 > El número de fases depende del trabajo: puede haber **una sola fase**.
 
+## Implementation Phases
+
+## Total Subtask Guardrail (MANDATORY)
+
+- **Subtareas opcionales, no obligatorias.** Una tarea se divide en subtareas **solo** cuando el trabajo se descompone naturalmente en piezas verificables de forma independiente. Una tarea simple (arreglar una función, añadir un parámetro, un cambio pequeño) es **una sola tarea sin subtareas**. **No inventes subtareas para llegar a una cuota.**
+- **Merge by boundary/use case/integration surface**: Fusionar trabajo consecutivo que toca el mismo componente, caso de uso o superficie de integración en lugar de dividir por pasos.
+- **Vertical slices over horizontal**: Preferir un flujo completo a través de capas (handler+service+repo) en el mismo subtask cuando sea verificable con un único criterio observable.
+- **Combine when same boundary**: Combinar implementación + validación mínima cuando sirven al mismo flujo/límite y pueden verificarse juntas.
+- **Avoid micro-edits**: No dividir "crear archivo", "añadir método", "añadir test", "enlazar" como subtareas separadas salvo que cada una produzca un resultado verificable independiente.
+- **One verification per subtask**: La condición de terminado debe ser única, medible y ejecutable.
+- **Regla**: Evalúa el requisito primero. Si es un cambio coherente, escribe **una tarea, sin subtareas**. Descompón solo cuando las piezas sean verificables por separado y merezcan revisión independiente.
+
 ## Formato de plantilla
 
 ### Fase con subtareas
+<!-- subtareas solo si el trabajo se descompone naturalmente; última = gate -->
 - [ ] {{N}}. Fase: {{NOMBRE_DE_LA_FASE}} — {{OBJETIVO_ESPECIFICO_OBSERVABLE}}
 - [ ] {{N}}.{{M}}{{PARALLEL_MARK}} {{TAREA_EJECUTABLE}}
   - {{DETALLE}} (incluir solo cuando aporte; omitir si la tarea se explica sola)

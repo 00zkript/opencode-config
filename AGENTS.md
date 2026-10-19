@@ -26,3 +26,19 @@
 - No declares algo terminado sin **evidencia real** (comando y salida, o URL y
   pasos de humo). Los comandos canónicos del proyecto van en su `AGENTS.md` o en
   `steering/tech.md`.
+
+## Subagentes (disciplina de ejecución)
+- **Profundidad máx. 1**: un subagente **nunca** despacha otros subagentes. Los roles
+  de controlador/orquestador (`kiro-impl`, `kiro-spec-*`, `kiro-validate-*`) solo
+  corren en el contexto principal, nunca dentro de un subagente.
+- **Skills bajo evaluación**: un subagente **sí** puede cargar skills, pero **solo
+  las que su tarea concreta necesite** — evalúa primero y carga ese subconjunto.
+  Para codificar, casi siempre hace falta `development` (negative programming,
+  indentación, saltos de línea, comentarios concisos) y el pack del lenguaje
+  (`python`, `typescript`, …). **No** cargues skills ajenas a la tarea.
+- **Ante un fallo de herramienta** (`aborted`, `cancelled`, permiso denegado):
+  máximo **1 reintento**; si vuelve a fallar, **para y reporta** al usuario con el
+  motivo exacto. Nunca improvises un reintento en bucle.
+- **Presupuesto de ejecución**: si una sesión autónoma supera ~20–30 min o un
+  número razonable de despachos, **para y reporta progreso parcial** con el punto
+  de re-entrada (el flujo `kiro-impl` es re-entrable: lo ya commiteado se retoma).

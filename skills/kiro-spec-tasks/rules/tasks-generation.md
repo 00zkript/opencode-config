@@ -75,11 +75,15 @@ Focus on capabilities and outcomes, not code structure.
 ### 6. Flexible Task Sizing
 
 **Guidelines**:
-- **Major tasks**: As many sub-tasks as logically needed (group by cohesion)
-- **Sub-tasks**: 1-3 hours each, 3-10 details per sub-task
-- Balance between too granular and too broad
+- **Subtasks are optional, not mandatory.** A task is split into subtasks **only** when the work naturally decomposes into independently verifiable pieces. A simple task (fix a function, add a parameter, a small config change) is a single task with **no subtasks**.
+- **No minimum, no target count.** The number of subtasks comes from evaluating the actual requirement, never from an arbitrary quota. Never invent subtasks to reach a number.
+- **Sub-tasks** (when they exist): 1-3 hours each, each with an observable completion condition.
+- **Merge by boundary**: When consecutive work touches the same component, boundary, use case, or integration surface, merge them into a single task rather than splitting by steps.
+- **Vertical slices over horizontal**: Prefer a complete flow across layers over splitting by layer.
+- **Combine when same boundary**: Combine test+implement+wire when they serve the same boundary/flow and are verified by a single observable criterion.
+- **Avoid micro-edits**: Do not split "create file", "add method", "add test" as separate subtasks unless each produces a distinct, independently verifiable outcome across different boundaries.
 
-**Don't force arbitrary numbers** - let logical grouping determine structure.
+**Rule**: Evaluate the requirement first. If it is one coherent change, write **one task, no subtasks**. Only decompose when the pieces are independently verifiable and worth separate review.
 
 ### 7. Requirements Mapping
 
